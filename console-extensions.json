@@ -3,18 +3,18 @@
     "type": "console.page/route",
     "properties": {
       "exact": true,
-      "path": "/example",
+      "path": "/epfl-hubble-ui",
       "component": { "$codeRef": "ExamplePage" }
     }
   },
   {
     "type": "console.navigation/href",
     "properties": {
-      "id": "example",
-      "name": "%plugin__console-plugin-template~Plugin Example%",
-      "href": "/example",
+      "id": "epfl-hubble-ui",
+      "name": "%plugin__console-plugin-template~Hubble UI%",
+      "href": "/epfl-hubble-ui",
       "perspective": "admin",
-      "section": "home"
+      "section": "networking"
     }
   }
 ]
