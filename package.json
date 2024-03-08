@@ -1,8 +1,8 @@
 {
-  "name": "console-plugin-template",
+  "name": "a-plugin-for-openshift",
   "version": "0.0.1",
   "private": true,
-  "repository": "git@github.com:spadgett/console-plugin-template.git",
+  "repository": "git@github.com:epfl-dojo/a-plugin-for-openshift.git",
   "license": "Apache-2.0",
   "scripts": {
     "clean": "rm -rf dist",
