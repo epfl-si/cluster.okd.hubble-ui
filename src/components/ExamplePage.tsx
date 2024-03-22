@@ -11,7 +11,7 @@ import './example.css';
 import { useTranslation } from 'react-i18next';
 
 export default function ExamplePage() {
-  const { t } = useTranslation('plugin__console-plugin-template');
+  const { t } = useTranslation('plugin__okd-epfl-hubble-ui');
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function ExamplePage() {
         <PageSection variant="light">
           <TextContent>
             <Text component="p">
-              <span className="console-plugin-template__nice">
+              <span className="okd-epfl-hubble-ui__nice">
                 {t('Nice!')}
               </span>{' '}
               {t('Your plugin is working.')}

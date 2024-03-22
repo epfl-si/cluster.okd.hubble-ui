@@ -63,10 +63,10 @@
     "webpack-dev-server": "^4.7.4"
   },
   "consolePlugin": {
-    "name": "console-plugin-template",
+    "name": "okd-epfl-hubble-ui",
     "version": "0.0.1",
-    "displayName": "OpenShift Console Plugin Template",
-    "description": "Template project for OpenShift console plugins. Edit package.json to change this message and the plugin name.",
+    "displayName": "OKD EPFL Hubble UI",
+    "description": "Access the Hubble UI from the OpenShift console.",
     "exposedModules": {
       "ExamplePage": "./components/ExamplePage"
     },
