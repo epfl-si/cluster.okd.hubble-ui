@@ -40,6 +40,8 @@ plugin:
       podSecurityContext:
         enabled: true
         runAsNonRoot: true
+        # The above doesn't suffice as per https://stackoverflow.com/a/49729786 :
+        runAsUser: 999
         seccompProfile:
           type: RuntimeDefault
       containerSecurityContext:
