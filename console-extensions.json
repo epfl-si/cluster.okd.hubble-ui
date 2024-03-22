@@ -11,7 +11,7 @@
     "type": "console.navigation/href",
     "properties": {
       "id": "epfl-hubble-ui",
-      "name": "%plugin__console-plugin-template~Hubble UI%",
+      "name": "%plugin__okd-epfl-hubble-ui~Hubble UI%",
       "href": "/epfl-hubble-ui",
       "perspective": "admin",
       "section": "networking"
