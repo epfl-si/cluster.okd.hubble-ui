@@ -9,6 +9,8 @@ RUN yarn install && yarn build
 FROM registry.access.redhat.com/ubi8/nginx-120:latest
 
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+COPY docker/entrypoint.sh /
+
 USER 1001
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/entrypoint.sh"]
