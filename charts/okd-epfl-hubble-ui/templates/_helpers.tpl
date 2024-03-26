@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "openshift-console-plugin.name" -}}
+{{- define ".name" -}}
 {{- default (default .Chart.Name .Release.Name) .Values.plugin.name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -9,16 +9,16 @@ Expand the name of the chart.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "openshift-console-plugin.chart" -}}
+{{- define ".chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "openshift-console-plugin.labels" -}}
-helm.sh/chart: {{ include "openshift-console-plugin.chart" . }}
-{{ include "openshift-console-plugin.selectorLabels" . }}
+{{- define ".labels" -}}
+helm.sh/chart: {{ include ".chart" . }}
+{{ include ".selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -28,26 +28,26 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "openshift-console-plugin.selectorLabels" -}}
-app: {{ include "openshift-console-plugin.name" . }}
-app.kubernetes.io/name: {{ include "openshift-console-plugin.name" . }}
+{{- define ".selectorLabels" -}}
+app: {{ include ".name" . }}
+app.kubernetes.io/name: {{ include ".name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ include "openshift-console-plugin.name" . }}
+app.kubernetes.io/part-of: {{ include ".name" . }}
 {{- end }}
 
 {{/*
 Create the name secret containing the certificate
 */}}
-{{- define "openshift-console-plugin.certificateSecret" -}}
-{{ default (printf "%s-cert" (include "openshift-console-plugin.name" .)) .Values.plugin.certificateSecretName }}
+{{- define ".certificateSecret" -}}
+{{ default (printf "%s-cert" (include ".name" .)) .Values.plugin.certificateSecretName }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "openshift-console-plugin.serviceAccountName" -}}
+{{- define ".serviceAccountName" -}}
 {{- if .Values.plugin.serviceAccount.create }}
-{{- default (include "openshift-console-plugin.name" .) .Values.plugin.serviceAccount.name }}
+{{- default (include ".name" .) .Values.plugin.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.plugin.serviceAccount.name }}
 {{- end }}
@@ -56,16 +56,16 @@ Create the name of the service account to use
 {{/*
 Create the name of the patcher
 */}}
-{{- define "openshift-console-plugin.patcherName" -}}
-{{- printf "%s-patcher" (include "openshift-console-plugin.name" .) }}
+{{- define ".patcherName" -}}
+{{- printf "%s-patcher" (include ".name" .) }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "openshift-console-plugin.patcherServiceAccountName" -}}
+{{- define ".patcherServiceAccountName" -}}
 {{- if .Values.plugin.patcherServiceAccount.create }}
-{{- default (printf "%s-patcher" (include "openshift-console-plugin.name" .)) .Values.plugin.patcherServiceAccount.name }}
+{{- default (printf "%s-patcher" (include ".name" .)) .Values.plugin.patcherServiceAccount.name }}
 {{- else }}
 {{- default "default" .Values.plugin.patcherServiceAccount.name }}
 {{- end }}
