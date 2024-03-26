@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "openshift-console-plugin.name" . }}
+  name: {{ template ".name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "openshift-console-plugin.labels" . | nindent 4 }}
+    {{- include ".labels" . | nindent 4 }}
     app.openshift.io/runtime-namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.plugin.replicas }}
   selector:
     matchLabels:
-      {{- include "openshift-console-plugin.selectorLabels" . | nindent 6 }}
+      {{- include ".selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-            {{- include "openshift-console-plugin.labels" . | nindent 8 }}
+            {{- include ".labels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ template "openshift-console-plugin.name" . }}
+        - name: {{ template ".name" . }}
           image: {{ required "Plugin image must be specified!" .Values.plugin.image }}
           ports:
             - containerPort: {{ .Values.plugin.port }}
@@ -29,7 +29,7 @@ spec:
           resources:
             {{- toYaml .Values.plugin.resources | nindent 12 }}
           volumeMounts:
-            - name: {{ template "openshift-console-plugin.certificateSecret" . }}
+            - name: {{ template ".certificateSecret" . }}
               readOnly: true
               mountPath: /var/cert
             - name: nginx-conf
@@ -37,13 +37,13 @@ spec:
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
       volumes:
-        - name: {{ template "openshift-console-plugin.certificateSecret" . }}
+        - name: {{ template ".certificateSecret" . }}
           secret:
-            secretName: {{ template "openshift-console-plugin.certificateSecret" . }}
+            secretName: {{ template ".certificateSecret" . }}
             defaultMode: 420
         - name: nginx-conf
           configMap:
-            name: {{ template "openshift-console-plugin.name" . }}
+            name: {{ template ".name" . }}
             defaultMode: 420
       restartPolicy: Always
       dnsPolicy: ClusterFirst
