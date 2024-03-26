@@ -10,7 +10,7 @@ import {
 import './example.css';
 import { useTranslation } from 'react-i18next';
 
-export default function ExamplePage() {
+export default function HubbleUIDiv() {
   const { t } = useTranslation('plugin__okd-epfl-hubble-ui');
 
   return (
