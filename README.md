@@ -31,7 +31,8 @@ In one terminal window, run:
 In another terminal window, run:
 
 1. `oc login` (requires [oc](https://console.redhat.com/openshift/downloads) and an [OpenShift cluster](https://console.redhat.com/openshift/create))
-2. `npm_package_consolePlugin_name=okd-epfl-hubble-ui yarn  run start-console` (requires [Docker](https://www.docker.com) or [podman 3.2.0+](https://podman.io))
+2. `yarn build-dev`
+3. Run `npm_package_consolePlugin_name=okd-epfl-hubble-ui yarn run start-console` (requires [Docker](https://www.docker.com) or [podman 3.2.0+](https://podman.io))
 
 This will run the OpenShift console in a container connected to the cluster
 you've logged into. The plugin HTTP server runs on port 9001 with CORS enabled.
