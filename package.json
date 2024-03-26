@@ -46,7 +46,7 @@
     "displayName": "OKD EPFL Hubble UI",
     "description": "Access the Hubble UI from the OpenShift console.",
     "exposedModules": {
-      "ExamplePage": "./components/ExamplePage"
+      "HubbleUIDiv": "./components/HubbleUIDiv"
     },
     "dependencies": {
       "@console/pluginAPI": "*"

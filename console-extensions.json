@@ -4,7 +4,7 @@
     "properties": {
       "exact": true,
       "path": "/epfl-hubble-ui",
-      "component": { "$codeRef": "ExamplePage" }
+      "component": { "$codeRef": "HubbleUIDiv" }
     }
   },
   {
