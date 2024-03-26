@@ -41,7 +41,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.22.5":
+"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2":
   version: 7.24.1
   resolution: "@babel/runtime@npm:7.24.1"
   dependencies:
@@ -79,6 +79,7 @@ __metadata:
     "@types/react-router-dom": ^5.3.2
     copy-webpack-plugin: ^6.4.1
     css-loader: ^6.7.1
+    i18next: ^23.10.1
     i18next-parser: ^3.11.0
     pluralize: ^8.0.0
     prettier: ^2.7.1
@@ -3276,6 +3277,15 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.0
   checksum: 313cd4b17f9092eaf8ca92a02bb74d099f4a8b26de6e38018f438ce6f706220e5f72d865e1f50d815e13504ec38bc77e0f6341f670ca5162689f8d11a859e564
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^23.10.1":
+  version: 23.10.1
+  resolution: "i18next@npm:23.10.1"
+  dependencies:
+    "@babel/runtime": ^7.23.2
+  checksum: 4aec10ddb0bb841f15b9b023daa59977052bc706ca4e94643b12b17640731862bde596c9797491638f6d9e7f125722ea9b1e87394c7aebbb72f45c20396f79d9
   languageName: node
   linkType: hard
 
