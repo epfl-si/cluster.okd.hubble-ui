@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   okd-epfl-hubble-ui:
   - apiVersion: v2
+    created: "2024-03-26T18:00:58.677399287Z"
+    description: A Helm chart for Kubernetes
+    digest: df21ff5b614f7ebcdee6ed87f1cb35556969734f53d11aeb1694b87d28f0d65e
+    name: okd-epfl-hubble-ui
+    type: application
+    urls:
+    - https://github.com/epfl-si/cluster.okd.hubble-ui/releases/download/okd-epfl-hubble-ui-0.1.1/okd-epfl-hubble-ui-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     created: "2024-03-22T14:13:40.046686453Z"
     description: A Helm chart for Kubernetes
     digest: ca73af00ae3b364ca34b1a4ec1fa96db5a18cd86d5e10a1c302ab93468d80f37
@@ -10,4 +19,4 @@ entries:
     urls:
     - https://github.com/epfl-si/cluster.okd.hubble-ui/releases/download/okd-epfl-hubble-ui-0.1.0/okd-epfl-hubble-ui-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-22T14:13:40.046696051Z"
+generated: "2024-03-26T18:00:58.677412181Z"
