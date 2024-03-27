@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-ui-restricted
+  namespace: "{{ .Release.Namespace }}"
+  annotations:
+    # Someone decided that we need in-cluster TLS (https://github.com/brancz/kube-rbac-proxy/issues/187).
+    # Fortunately, OpenShift delivers just that as-a-service:
+    service.beta.openshift.io/serving-cert-secret-name: hubble-ui-restricted-tls
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    app: hubble-ui-restricted
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 8443

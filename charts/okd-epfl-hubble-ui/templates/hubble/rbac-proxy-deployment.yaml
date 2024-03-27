@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hubble-ui-restricted
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hubble-ui-restricted
+  template:
+    metadata:
+      labels:
+        app: hubble-ui-restricted
+    spec:
+      serviceAccountName: hubble-ui-rbac-proxy
+      containers:
+      - name: kube-rbac-proxy
+        image: quay.io/brancz/kube-rbac-proxy:v0.16.0
+        args:
+        - "--secure-listen-address=0.0.0.0:8443"
+        - "--tls-cert-file=/tls/tls.crt"
+        - "--tls-private-key-file=/tls/tls.key"
+        - "--upstream=http://hubble-ui/"
+        - "--logtostderr=true"
+        - "--v=10"
+        securityContext:
+          runAsNonRoot: true
+        ports:
+        - containerPort: 8443
+          name: https
+        volumeMounts:
+        - mountPath: /tls
+          name: tls
+          readOnly: true
+      volumes:
+      - name: tls
+        secret:
+          defaultMode: 420
+          # Consume the Secret that OpenShift auto-creates for the
+          # annotated Service, in rbac-proxy-service.yaml. 💡
+          # Referencing the secret in this way, doesn't even require
+          # that the Secret exist before the Deployment does.
+          secretName: hubble-ui-restricted-tls

@@ -54,3 +54,6 @@ plugin:
         requests:
           cpu: 10m
           memory: 50Mi
+hubbleAPI:
+  accessList: ~
+  hostname: ~
