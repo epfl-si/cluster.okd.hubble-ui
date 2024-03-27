@@ -107,7 +107,9 @@ A [Helm](https://helm.sh) chart is available to deploy the plugin to an OpenShif
 
 The following Helm parameters are required:
 
-`plugin.image`: The location of the image containing the plugin that was previously pushed
+- `plugin.image`<br/> The location of the image containing the plugin that was previously pushed
+- `hubbleAPI.accessList`<br/> The list of authenticated users who may access the Hubble API, as a `ClusterRoleBinding`-style `subject:` list
+- `hubbleAPI.hostname`<br/> The host name for the route at which the Hubble API will be accessible (in an iframe embedded within the right panel that the OpenShift console plugin renders)
 
 Additional parameters can be specified if desired. Consult the chart [values](charts/openshift-console-plugin/values.yaml) file for the full set of supported parameters.
 
