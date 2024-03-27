@@ -74,33 +74,6 @@ OC_PASS=<password>
 3. `yarn run start`
 4. Navigate to <http://localhost:9000/example>
 
-## Docker image
-
-Before you can deploy your plugin on a cluster, you must build an image and
-push it to an image registry.
-
-1. Build the image:
-
-   ```sh
-   docker build -t quay.io/my-repository/my-plugin:latest .
-   ```
-
-2. Run the image:
-
-   ```sh
-   docker run -it --rm -d -p 9001:80 quay.io/my-repository/my-plugin:latest
-   ```
-
-3. Push the image:
-
-   ```sh
-   docker push quay.io/my-repository/my-plugin:latest
-   ```
-
-NOTE: If you have a Mac with Apple silicon, you will need to add the flag
-`--platform=linux/amd64` when building the image to target the correct platform
-to run in-cluster.
-
 ## Deployment on cluster
 
 A [Helm](https://helm.sh) chart is available to deploy the plugin to an OpenShift environment.
@@ -111,15 +84,42 @@ The following Helm parameters are required:
 - `hubbleAPI.accessList`<br/> The list of authenticated users who may access the Hubble API, as a `ClusterRoleBinding`-style `subject:` list
 - `hubbleAPI.hostname`<br/> The host name for the route at which the Hubble API will be accessible (in an iframe embedded within the right panel that the OpenShift console plugin renders)
 
+For instance:
+
+```bash
+helm upgrade okd-epfl-hubble-ui charts/okd-epfl-hubble-ui \
+  --namespace cilium --set "plugin.image=si-quay.epfl.ch/cilium-public/okd.epfl-hubble-ui=0.1.2" \
+  --set "hubbleAPI.accessList[0].apiGroup=rbac.authorization.k8s.io" \
+  --set "hubbleAPI.accessList[0].kind=User" \
+  --set "hubbleAPI.accessList[0].name=$(whoami)" \
+  --set "hubbleAPI.hostname=cilium-hubble-ui.apps.fsd.ocp-test.epfl.ch"
+```
+
 Additional parameters can be specified if desired. Consult the chart [values](charts/openshift-console-plugin/values.yaml) file for the full set of supported parameters.
 
-### Installing the Helm Chart
+## Building and Installing using the configuration-as-code
 
-Install the chart using the name of the plugin as the Helm release name into a new namespace or an existing namespace as specified by the `plugin_console-plugin-template` parameter and providing the location of the image within the `plugin.image` parameter by using the following command:
+This project is managed as part of (the `cilium` branch of) https://github.com/epfl-si/sddc-ocp . In order to load it “properly” from there, the steps are as follows:
 
-```shell
-helm upgrade -i  my-plugin charts/openshift-console-plugin -n plugin__console-plugin-template --create-namespace --set plugin.image=my-plugin-image-location
-```
+1. **Make a new tagged release here**, e.g.
+   1. Bump the version fields in `package.json` (⚠ two places) and `charts/okd-epfl-hubble-ui/Chart.yaml`
+   2. Commit, tag and push these changes:
+      ```bash
+      git commit -m "[chore] Version 0.1.2345" package.json charts/okd-epfl-hubble-ui/Chart.yaml
+      git tag v0.1.2345
+      git push
+      git push --tags
+      ```
+   3. Wait a bit for the [GitHub action](https://github.com/epfl-si/cluster.okd.hubble-ui/blob/main/.github/workflows/release.yml) to do its job.
+2. **Sync the version in the configuration-as-code**: in your checked out revision [epfl-si/sddc-ocp](https://github.com/epfl-si/sddc-ocp), edit `vars/versions.yml` and update `cilium_hubble_ui_epfl_version`
+3. **Build the new image in the hub cluster**: for instance,
+   ```bash
+   ./xaasible -t openshift.cilium.hubble.build
+   ```
+4. **Deploy in a canary cluster**: for instance,
+   ```bash
+   ./xaasible -l fsd.ocp-test.epfl.ch -t openshift.cilium.hubble.run  -vvv
+   ```
 
 ## References
 
