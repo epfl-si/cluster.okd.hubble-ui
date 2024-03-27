@@ -14,7 +14,7 @@ spec:
     - name: {{ .Values.plugin.port }}-tcp
       protocol: TCP
       port: {{ .Values.plugin.port }}
-      targetPort: {{ .Values.plugin.port }}
+      targetPort: 8443
   selector:
     {{- include ".selectorLabels" . | nindent 4 }}
   type: ClusterIP

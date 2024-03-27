@@ -20,7 +20,7 @@ spec:
         - name: {{ template ".name" . }}
           image: {{ required "Plugin image must be specified!" .Values.plugin.image }}
           ports:
-            - containerPort: {{ .Values.plugin.port }}
+            - containerPort: 8443
               protocol: TCP
           imagePullPolicy: {{ .Values.plugin.imagePullPolicy }}
           {{- if and (.Values.plugin.securityContext.enabled) (.Values.plugin.containerSecurityContext) }}
@@ -32,18 +32,10 @@ spec:
             - name: {{ template ".certificateSecret" . }}
               readOnly: true
               mountPath: /var/cert
-            - name: nginx-conf
-              readOnly: true
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
       volumes:
         - name: {{ template ".certificateSecret" . }}
           secret:
             secretName: {{ template ".certificateSecret" . }}
-            defaultMode: 420
-        - name: nginx-conf
-          configMap:
-            name: {{ template ".name" . }}
             defaultMode: 420
       restartPolicy: Always
       dnsPolicy: ClusterFirst
