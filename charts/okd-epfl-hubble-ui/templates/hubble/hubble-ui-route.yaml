@@ -9,8 +9,9 @@ spec:
   host: {{ required "hubbleAPI.hostname must be set" .Values.hubbleAPI.hostname }}
   to:
     kind: Service
-    name: hubble-ui
+    name: hubble-ui-restricted
   port:
-    targetPort: http
+    targetPort: https
   tls:
+    termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
