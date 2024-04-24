@@ -111,7 +111,7 @@ This project is managed as part of (the `cilium` branch of) https://github.com/e
       git push --tags
       ```
    3. Wait a bit for the [GitHub action](https://github.com/epfl-si/cluster.okd.hubble-ui/blob/main/.github/workflows/release.yml) to do its job.
-2. **Sync the version in the configuration-as-code**: in your checked out revision [epfl-si/sddc-ocp](https://github.com/epfl-si/sddc-ocp), edit `vars/versions.yml` and update `cilium_hubble_ui_epfl_version`
+2. **Sync the version in the configuration-as-code**: in your checked out revision [epfl-si/sddc-ocp](https://github.com/epfl-si/sddc-ocp), edit `vars/versions.yml` and update `hubble_ui_epfl_version`
 3. **Build the new image in the hub cluster**: for instance,
    ```bash
    ./xaasible -t openshift.cilium.hubble.build
