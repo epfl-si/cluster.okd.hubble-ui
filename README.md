@@ -92,7 +92,7 @@ helm upgrade okd-epfl-hubble-ui charts/okd-epfl-hubble-ui \
   --set "hubbleAPI.accessList[0].apiGroup=rbac.authorization.k8s.io" \
   --set "hubbleAPI.accessList[0].kind=User" \
   --set "hubbleAPI.accessList[0].name=$(whoami)" \
-  --set "hubbleAPI.hostname=cilium-hubble-ui.apps.fsd.ocp-test.epfl.ch"
+  --set "hubbleAPI.hostname=hubble-ui.apps.fsd.ocp-test.epfl.ch"
 ```
 
 Additional parameters can be specified if desired. Consult the chart [values](charts/openshift-console-plugin/values.yaml) file for the full set of supported parameters.
