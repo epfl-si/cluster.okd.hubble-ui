@@ -88,7 +88,7 @@ For instance:
 
 ```bash
 helm upgrade okd-epfl-hubble-ui charts/okd-epfl-hubble-ui \
-  --namespace cilium --set "plugin.image=si-quay.epfl.ch/cilium-public/okd.epfl-hubble-ui=0.1.2" \
+  --namespace cilium --set "plugin.image=si-quay.epfl.ch/cilium-public/okd.epfl-hubble-ui=0.1.5" \
   --set "hubbleAPI.accessList[0].apiGroup=rbac.authorization.k8s.io" \
   --set "hubbleAPI.accessList[0].kind=User" \
   --set "hubbleAPI.accessList[0].name=$(whoami)" \

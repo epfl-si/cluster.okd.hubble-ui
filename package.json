@@ -1,6 +1,6 @@
 {
   "name": "@epfl-si/okd-hubble-ui",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "repository": "git@github.com:epfl-si/cluster.okd.hubble-ui.git",
   "license": "Apache-2.0",
@@ -42,7 +42,7 @@
   },
   "consolePlugin": {
     "name": "okd-epfl-hubble-ui",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "displayName": "OKD EPFL Hubble UI",
     "description": "Access the Hubble UI from the OpenShift console.",
     "exposedModules": {
