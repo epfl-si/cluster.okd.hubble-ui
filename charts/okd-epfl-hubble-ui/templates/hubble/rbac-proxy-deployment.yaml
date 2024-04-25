@@ -23,7 +23,7 @@ spec:
         - "--secure-listen-address=0.0.0.0:8443"
         - "--tls-cert-file=/tls/tls.crt"
         - "--tls-private-key-file=/tls/tls.key"
-        - "--upstream=http://hubble-ui/"
+        - "--upstream=http://hubble-ui-epfl:81/"
         - "--logtostderr=true"
         - "--v=10"
         securityContext:
