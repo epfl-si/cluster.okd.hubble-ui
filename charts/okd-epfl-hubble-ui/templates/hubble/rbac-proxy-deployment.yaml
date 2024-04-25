@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hubble-ui-restricted
+  name: hubble-api-restricted
   namespace: "{{ .Release.Namespace }}"
   labels:
     {{- include ".labels" . | nindent 4 }}
@@ -9,11 +9,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hubble-ui-restricted
+      app: hubble-api-restricted
   template:
     metadata:
       labels:
-        app: hubble-ui-restricted
+        app: hubble-api-restricted
     spec:
       serviceAccountName: hubble-ui-rbac-proxy
       containers:
@@ -43,4 +43,4 @@ spec:
           # annotated Service, in rbac-proxy-service.yaml. 💡
           # Referencing the secret in this way, doesn't even require
           # that the Secret exist before the Deployment does.
-          secretName: hubble-ui-restricted-tls
+          secretName: hubble-api-restricted-tls

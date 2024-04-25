@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: hubble-ui-restricted-api
+  name: hubble-api-restricted
   namespace: "{{ .Release.Namespace }}"
   labels:
     {{- include ".labels" . | nindent 4 }}
@@ -10,7 +10,7 @@ spec:
   path: /api/
   to:
     kind: Service
-    name: hubble-ui-restricted
+    name: hubble-api-restricted
   port:
     targetPort: https
   tls:
