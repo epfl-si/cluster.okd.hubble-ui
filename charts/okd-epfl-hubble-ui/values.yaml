@@ -45,6 +45,10 @@ plugin:
         requests:
           cpu: 10m
           memory: 50Mi
+hubbleUI:
+  image: ""
+  imagePullPolicy: IfNotPresent
+  replicas: 2
 hubbleAPI:
   accessList: ~
   hostname: ~
