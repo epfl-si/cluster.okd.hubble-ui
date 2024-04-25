@@ -34,18 +34,6 @@ spec:
         ports:
         - name: http-api
           containerPort: 8090
-        {{- if .Values.hubbleUI.backend.livenessProbe.enabled }}
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8090
-        {{- end }}
-        {{- if .Values.hubbleUI.backend.readinessProbe.enabled }}
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 8090
-        {{- end }}
         env:
         - name: FLOWS_API_ADDR
           value: "{{ .Values.hubbleUI.backend.relayHostPort }}"
