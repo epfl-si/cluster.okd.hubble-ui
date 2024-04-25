@@ -38,18 +38,9 @@ plugin:
       enabled: true
       image: "registry.redhat.io/openshift4/ose-tools-rhel8@sha256:e44074f21e0cca6464e50cb6ff934747e0bd11162ea01d522433a1a1ae116103"
       podSecurityContext:
-        enabled: true
-        runAsNonRoot: true
-        # The above doesn't suffice as per https://stackoverflow.com/a/49729786 :
-        runAsUser: 999
-        seccompProfile:
-          type: RuntimeDefault
+        enabled: false
       containerSecurityContext:
-        enabled: true
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
+        enabled: false
       resources:
         requests:
           cpu: 10m
