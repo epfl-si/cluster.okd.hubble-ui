@@ -15,11 +15,37 @@ spec:
       labels:
         app: hubble-ui-epfl
     spec:
-      automountServiceAccountToken: false
       containers:
-      - name: hubble-ui
+      ################################################
+      # nginx with some static HTML / CSS / JS / SVG files:
+      - name: frontend
         image: {{ required "hubbleUI.image must be specified!" .Values.hubbleUI.image }}
         imagePullPolicy: {{ .Values.hubbleUI.imagePullPolicy }}
         ports:
         - name: http
           containerPort: 8080
+        automountServiceAccountToken: false
+
+      ################################################
+      # Glorified HTTP-to-gRPC proxy in Go, with a side serving of `Namespace` enumeration:
+      - name: backend
+        image: {{ required "hubbleUI.backend.image must be specified!" .Values.hubbleUI.backend.image }}
+        imagePullPolicy: {{ .Values.hubbleUI.backend.imagePullPolicy }}
+        ports:
+        - name: http-api
+          containerPort: 8090
+        {{- if .Values.hubbleUI.backend.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8090
+        {{- end }}
+        {{- if .Values.hubbleUI.backend.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8090
+        {{- end }}
+        env:
+        - name: FLOWS_API_ADDR
+          value: "{{ .Values.hubbleUI.backend.relayHostPort }}"
