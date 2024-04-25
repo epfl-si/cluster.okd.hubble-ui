@@ -53,10 +53,6 @@ hubbleUI:
     # As found in install/kubernetes/cilium/values.yaml in the Cilium source tree:
     image: quay.io/cilium/hubble-ui-backend:v0.13.0
     imagePullPolicy: IfNotPresent
-    livenessProbe:
-      enabled: true
-    readinessProbe:
-      enabled: true
     relayHostPort: hubble-relay.cilium-system.svc.cluster.local:80
 hubbleAPI:
   accessList: ~
