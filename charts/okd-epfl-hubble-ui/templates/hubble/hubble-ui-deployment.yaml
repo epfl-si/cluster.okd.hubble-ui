@@ -15,6 +15,7 @@ spec:
       labels:
         app: hubble-ui-epfl
     spec:
+      serviceAccountName: hubble-ui-backend
       containers:
       ################################################
       # nginx with some static HTML / CSS / JS / SVG files:

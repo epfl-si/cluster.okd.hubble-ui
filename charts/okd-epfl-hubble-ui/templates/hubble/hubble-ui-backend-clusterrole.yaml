@@ -1,0 +1,13 @@
+# The Hubble UI backend needs to be able to enumerate Namespaces (so
+# that the Hubble UI may show them); nothing more.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hubble-ui:backend
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+rules:
+rules:
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch"]
