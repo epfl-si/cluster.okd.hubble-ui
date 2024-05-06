@@ -10,8 +10,9 @@ FROM registry.access.redhat.com/ubi8/nginx-122:latest
 
 COPY --from=build /usr/src/app/dist /tmp/src
 COPY docker/nginx.conf .
+COPY docker/entrypoint.sh /
 
 USER 1001
 RUN /usr/libexec/s2i/assemble
 
-CMD /usr/libexec/s2i/run
+CMD /entrypoint.sh
