@@ -8,10 +8,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import './hubble-ui-div.css';
-import { useTranslation } from 'react-i18next';
 
 export default function HubbleUIDiv() {
-  const { t } = useTranslation('plugin__okd-epfl-hubble-ui');
+  function t(translatableString : string) { return translatableString; }
 
   return (
     <>
