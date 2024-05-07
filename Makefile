@@ -16,6 +16,10 @@ certs/tls.crt: certs/tls.key
 logs:
 	docker compose logs -f
 
+.PHONY: exec
+exec:
+	docker compose exec -it frontend bash
+
 .PHONY: down
 down:
 	docker compose down
