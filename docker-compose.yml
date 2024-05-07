@@ -1,0 +1,14 @@
+# This docker-compose.yml file is intended for development support. It
+# is *not* meant for production.
+
+version: '3'
+name: okd-hubble-ui
+
+services:
+  frontend:
+    build: .
+    image: okd.hubble-ui
+    volumes:
+      - ./certs:/var/cert
+    ports:
+      - 8080:8080
