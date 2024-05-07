@@ -7,7 +7,7 @@ certs:
 
 certs/tls.key:
 	-mkdir $(dir $@) || true
-	openssl genrsa 1024 > $@
+	openssl genrsa 2048 > $@
 
 certs/tls.crt: certs/tls.key
 	openssl x509 -new -subj /CN=localhost -key certs/tls.key -out certs/tls.crt
