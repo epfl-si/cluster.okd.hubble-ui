@@ -94,7 +94,6 @@ if (process.env.NODE_ENV === "production") {
     config.optimization.chunkIds = 'deterministic';
     config.optimization.minimize = true;
   }
-  config.devtool = false;
 }
 
 export default config;
