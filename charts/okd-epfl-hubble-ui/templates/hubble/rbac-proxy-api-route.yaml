@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include ".labels" . | nindent 4 }}
 spec:
-  host: {{ required "hubbleAPI.hostname must be set" .Values.hubbleAPI.hostname }}
+  host: {{ required "hubbleUI.hostname must be set" .Values.hubbleUI.hostname }}
   path: /api/
   to:
     kind: Service

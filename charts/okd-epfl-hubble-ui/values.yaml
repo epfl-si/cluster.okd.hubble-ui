@@ -49,6 +49,6 @@ hubbleUI:
   image: ""
   imagePullPolicy: IfNotPresent
   replicas: 2
+  hostname: ~
 hubbleAPI:
   accessList: ~
-  hostname: ~
