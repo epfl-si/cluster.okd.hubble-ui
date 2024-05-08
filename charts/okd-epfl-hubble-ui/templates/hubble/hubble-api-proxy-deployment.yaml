@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hubble-api-proxy
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hubble-api-proxy
+  template:
+    metadata:
+      labels:
+        app: hubble-api-proxy
+    spec:
+      serviceAccountName: hubble-api-proxy
+      containers:
+      - name: kube-api-proxy
+        image: {{ .Values.hubbleAPI.image }}
+        ports:
+        - containerPort: 3000
+          name: http

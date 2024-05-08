@@ -55,5 +55,6 @@ hubbleUI:
     imagePullPolicy: IfNotPresent
     relayHostPort: hubble-relay.cilium-system.svc.cluster.local:80
 hubbleAPI:
+  image: si-quay.epfl.ch/hubble-public/hubble-api-proxy:0.2.0
   accessList: ~
   hostname: ~
