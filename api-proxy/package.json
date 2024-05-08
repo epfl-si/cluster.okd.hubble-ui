@@ -7,5 +7,12 @@
     "start": "node index.js"
   },
   "author": "EPFL ISAS-FSD <isas-fsd@groupes.epfl.ch>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "node-cache": "^5.1.2"
+  }
 }
