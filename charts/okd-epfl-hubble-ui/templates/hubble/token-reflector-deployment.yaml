@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hubble-api-token-reflector
+  namespace: "{{ .Values.hubbleAPI.tokenReflector.namespace }}"
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.hubbleAPI.tokenReflector.replicas }}
+  selector:
+    matchLabels:
+      app: hubble-api-proxy
+  template:
+    metadata:
+      labels:
+        app: hubble-api-proxy
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: hubble-api-token-reflector
+        image: {{ required "hubbleAPI.tokenReflector.image must be set" .Values.hubbleAPI.tokenReflector.image }}
+        ports:
+        - containerPort: 3000
+          name: http

@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: hubble-api-token-reflector
+  namespace: "{{ .Values.hubbleAPI.tokenReflector.namespace }}"
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  host: {{ .Values.hubbleAPI.tokenReflector.hostname | default (regexReplaceAll "^[^.]+" .Values.hubbleUI.hostname "console-openshift-console") }}
+  path: /api/hubble
+  to:
+    kind: Service
+    name: hubble-api-token-reflector
+  port:
+    targetPort: http
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge

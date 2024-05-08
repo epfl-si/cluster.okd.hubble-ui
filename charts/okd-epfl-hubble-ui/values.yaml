@@ -57,3 +57,9 @@ hubbleUI:
 hubbleAPI:
   accessList: ~
   hostname: ~
+  tokenReflector:
+     image: ~
+     replicas: 1
+     namespace: openshift-console
+     hostname: ~    # Deduced from hubbleUI.hostname by default
+     path: /api/token-reflector
