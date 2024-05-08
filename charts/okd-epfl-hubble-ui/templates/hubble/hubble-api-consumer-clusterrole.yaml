@@ -1,11 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: cilium-hubble-api
+  name: hubble-api-consumer
   labels:
     {{- include ".labels" . | nindent 4 }}
 rules:
-- verbs: ["create"]
+- verbs: ["GET"]
   nonResourceURLs:
-  - /api/ui.UI/GetEvents
-  - /api/ui.UI/GetControlStream
+  - /api/hubble-ui
