@@ -1,0 +1,11 @@
+{
+  "name": "@epfl-si/token-reflector",
+  "version": "0.1.0",
+  "description": "Give out the OpenShift console token to select applications",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "EPFL ISAS-FSD <isas-fsd@groupes.epfl.ch>",
+  "license": "ISC"
+}
