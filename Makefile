@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	docker compose build
+
 .PHONY: up
 up: certs
 	docker compose up -d
