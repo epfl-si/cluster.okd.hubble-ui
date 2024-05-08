@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-api-token-reflector
+  namespace: "{{ .Values.hubbleAPI.tokenReflector.namespace }}"
+  labels:
+    {{- include ".labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    app: hubble-api-token-reflector
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3000
