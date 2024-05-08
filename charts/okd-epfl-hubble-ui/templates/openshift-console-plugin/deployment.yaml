@@ -32,11 +32,16 @@ spec:
             - name: {{ template ".certificateSecret" . }}
               readOnly: true
               mountPath: /var/cert
+            - name: json-config
+              mountPath: /opt/app-root/src/runtime
       volumes:
         - name: {{ template ".certificateSecret" . }}
           secret:
             secretName: {{ template ".certificateSecret" . }}
             defaultMode: 420
+        - name: json-config
+          configMap:
+            name: frontend
       restartPolicy: Always
       dnsPolicy: ClusterFirst
       {{- if and (.Values.plugin.securityContext.enabled) (.Values.plugin.podSecurityContext) }}
