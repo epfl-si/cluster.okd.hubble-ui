@@ -1,0 +1,11 @@
+{
+  "name": "@epfl-si/okd-hubble-ui.api-proxy",
+  "version": "0.1.0",
+  "description": "Forge OAuth bearer tokens out of cookies!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "EPFL ISAS-FSD <isas-fsd@groupes.epfl.ch>",
+  "license": "ISC"
+}
