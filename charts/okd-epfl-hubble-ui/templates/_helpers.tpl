@@ -70,3 +70,11 @@ Create the name of the service account to use
 {{- default "default" .Values.plugin.patcherServiceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+The hostname where the token reflector lives
+*/}}
+{{- define ".tokenReflectorHostname" -}}
+{{- .Values.hubbleAPI.tokenReflector.hostname | default (regexReplaceAll "^[^.]+" .Values.hubbleUI.hostname "console-openshift-console") }}
+{{- end }}
+

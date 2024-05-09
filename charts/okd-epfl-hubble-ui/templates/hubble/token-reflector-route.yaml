@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include ".labels" . | nindent 4 }}
 spec:
-  host: {{ .Values.hubbleAPI.tokenReflector.hostname | default (regexReplaceAll "^[^.]+" .Values.hubbleUI.hostname "console-openshift-console") }}
+  host: {{ include ".tokenReflectorHostname" . }}
   path: /api/token-reflector
   to:
     kind: Service
