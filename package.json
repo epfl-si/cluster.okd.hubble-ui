@@ -48,5 +48,8 @@
     "dependencies": {
       "@console/pluginAPI": "*"
     }
+  },
+  "dependencies": {
+    "use-http": "^1.0.28"
   }
 }
