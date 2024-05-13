@@ -72,7 +72,7 @@ function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfi
         });
     });
 
-    return <iframe ref={iframeRef} src={iframeDomain}></iframe>
+    return <iframe ref={iframeRef} src={iframeDomain} sandbox="allow-same-origin allow-scripts allow-modals" />
 }
 
 function Error ({ error }: { error: Error }) {
