@@ -36,7 +36,7 @@ In another terminal window, run:
 
 This will run the OpenShift console in a container connected to the cluster
 you've logged into. The plugin HTTP server runs on port 9001 with CORS enabled.
-Navigate to <http://localhost:9000/example> to see the running plugin.
+Navigate to <http://localhost:9000/hubble-ui> to see the running plugin.
 
 #### Running start-console with Apple silicon and podman
 
@@ -81,14 +81,16 @@ A [Helm](https://helm.sh) chart is available to deploy the plugin to an OpenShif
 The following Helm parameters are required:
 
 - `plugin.image`<br/> The location of the image containing the plugin that was previously pushed
-- `hubbleAPI.accessList`<br/> The list of authenticated users who may access the Hubble API, as a `ClusterRoleBinding`-style `subject:` list
+- `hubbleUI.image`<br/> The location of the image containing [our fork](https://github.com/epfl-si/hubble-ui-epfl) of the Hubble UI
 - `hubbleUI.hostname`<br/> The host name for the route at which the Hubble UI will be accessible (in an iframe embedded within the right panel that the OpenShift console plugin renders)
+- `hubbleAPI.accessList`<br/> The list of authenticated users who may access the Hubble API, as a `ClusterRoleBinding`-style `subject:` list
+- `hubbleAPI.tokenReflector.image`<br/> The location of the image that reflects the token back to the OKD console plug-in (from an `HTMLOnly` cookie to a bearer token)
 
 For instance:
 
 ```bash
 helm upgrade okd-epfl-hubble-ui charts/okd-epfl-hubble-ui \
-  --namespace cilium --set "plugin.image=si-quay.epfl.ch/cilium-public/okd.epfl-hubble-ui=0.1.5" \
+  --namespace hubble --set "plugin.image=si-quay.epfl.ch/cilium-public/okd.epfl-hubble-ui=0.1.5" \
   --set "hubbleAPI.accessList[0].apiGroup=rbac.authorization.k8s.io" \
   --set "hubbleAPI.accessList[0].kind=User" \
   --set "hubbleAPI.accessList[0].name=$(whoami)" \
