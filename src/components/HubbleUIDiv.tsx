@@ -1,51 +1,88 @@
 import * as React from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import {
   Page,
   PageSection,
-  Text,
-  TextContent,
   Title,
 } from '@patternfly/react-core';
+import useAsyncEffect from 'use-async-effect';
+import { onIframeMessage } from  '../iframe-api';
 import './hubble-ui-div.css';
 
+
+type FetchOutcome<T> = {
+  data ?: T;
+  error?: Error;
+}
+
+type TwelveFactorHubbleUIConfig = {
+  iframeDomain : string;
+  tokenReflectorURI : string;
+}
+
+function t(translatableString : string) { return translatableString; }
+
 export default function HubbleUIDiv() {
-  function t(translatableString : string) { return translatableString; }
+  const [ fetched, setFetched ] = useState< FetchOutcome<TwelveFactorHubbleUIConfig> >({});
+
+  useAsyncEffect(async (isStillMounted) => {
+    try {
+      const res = await fetch("/api/plugins/okd-epfl-hubble-ui/runtime/frontend-config.json",
+        {credentials: "include"});
+      const data = await res.json();
+      if (isStillMounted) setFetched({ data });
+    } catch (error) {
+      if (isStillMounted) setFetched({ error });
+    }
+  });
 
   return (
     <>
       <Helmet>
-        <title data-test="example-page-title">{t('Hello, Plugin!')}</title>
+        <title data-test="example-page-title">{t('Hubble UI')}</title>
       </Helmet>
       <Page>
         <PageSection variant="light">
-          <Title headingLevel="h1">{t('Hello, Plugin!')}</Title>
+          <Title headingLevel="h1">{t('Hubble UI')}</Title>
         </PageSection>
-        <PageSection variant="light">
-          <TextContent>
-            <Text component="p">
-              <span className="okd-epfl-hubble-ui__nice">
-                {t('Nice!')}
-              </span>{' '}
-              {t('Your plugin is working.')}
-            </Text>
-            <Text component="p">
-              {t(
-                'This is a custom page contributed by the console plugin template. The extension that adds the page is declared in console-extensions.json in the project root along with the corresponding nav item. Update console-extensions.json to change or add extensions. Code references in console-extensions.json must have a corresponding property',
-              )}
-              <code>{t('exposedModules')}</code>{' '}
-              {t('in package.json mapping the reference to the module.')}
-            </Text>
-            <Text component="p">
-              {t('After cloning this project, replace references to')}{' '}
-              <code>{t('console-template-plugin')}</code>{' '}
-              {t(
-                'and other plugin metadata in package.json with values for your plugin.',
-              )}
-            </Text>
-          </TextContent>
-        </PageSection>
+        { fetched.data ? <HubbleUI {...fetched.data} />  :
+          fetched.error ? <Error error={fetched.error}/> :
+            <Loading/> }
       </Page>
     </>
   );
+}
+
+function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfig) {
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    useEffect(() => {
+      return onIframeMessage(iframeRef, "bearer-token-request",
+        async () => {
+          try {
+            const res = await fetch(tokenReflectorURI, {credentials: "include"});
+            const token = res.headers.get("X-Token");
+            iframeRef.current.contentWindow.postMessage(
+              { kind: "token",
+                token },
+              iframeDomain);
+          } catch (e) {
+            console.error("in onIframeMessage handler: ", e);
+          }
+        });
+    });
+
+    return <iframe ref={iframeRef} src={iframeDomain}></iframe>
+}
+
+function Error ({ error }: { error: Error }) {
+  return <>
+           <h4>{t("Error!")}</h4>
+           <pre>{JSON.stringify(error)}</pre>
+         </>;
+}
+
+function Loading () {
+  return <>⏳</>;
 }
