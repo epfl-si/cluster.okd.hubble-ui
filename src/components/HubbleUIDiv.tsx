@@ -35,7 +35,7 @@ export default function HubbleUIDiv() {
     } catch (error) {
       if (isStillMounted) setFetched({ error });
     }
-  });
+  }, []);
 
   return (
     <>
