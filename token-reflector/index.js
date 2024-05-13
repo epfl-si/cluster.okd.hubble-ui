@@ -41,7 +41,7 @@ app.get(servingURL, (req, res) => {
 
   if (! cookie) {
     res.status(401).send("No cookie.");
-  } else if (isPermittedOrigin(req.headers.origin)) {
+  } else if (isPermittedOrigin(req.headers)) {
     // Note : Origin is a forbidden header name as per
     // https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
     // Therefore, JavaScript in an “honest” browser cannot spoof it.
@@ -56,12 +56,13 @@ app.get(servingURL, (req, res) => {
   }
 });
 
-function isPermittedOrigin (origin) {
+function isPermittedOrigin (headers) {
+  if (headers['sec-fetch-site'] === 'same-origin') return true;
   for (let permitted of (process.env.PERMITTED_ORIGINS || "").split(",")) {
     permitted = permitted.trim();
     if (! permitted) continue;
 
-    if (origin === permitted) return true;
+    if (headers.origin === permitted) return true;
   }
   return false;
 }
