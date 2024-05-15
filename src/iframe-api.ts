@@ -22,7 +22,7 @@ type BearerTokenRequest = {
   kind: "bearer-token-request"
 }
 
-type EndpointCardClicked = {
+export type EndpointCardClicked = {
   kind: "endpoint-card-clicked-⚙️",
   namespace ?: string,
   labels: Array<KV>

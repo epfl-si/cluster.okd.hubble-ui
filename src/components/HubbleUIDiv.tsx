@@ -7,7 +7,8 @@ import {
   Title,
 } from '@patternfly/react-core';
 import useAsyncEffect from 'use-async-effect';
-import { onIframeMessage } from  '../iframe-api';
+import { onIframeMessage, EndpointCardClicked } from  '../iframe-api';
+import { NetworkPolicyControls } from './NetworkPolicyControls';
 import './hubble-ui-div.css';
 
 
@@ -33,9 +34,12 @@ export default function HubbleUIDiv() {
       const data = await res.json();
       if (isStillMounted) setFetched({ data });
     } catch (error) {
+      console.error(error);
       if (isStillMounted) setFetched({ error });
     }
   }, []);
+
+  const [ endpoint, setEndpoint ] = useState<EndpointCardClicked>();
 
   return (
     <>
@@ -45,8 +49,11 @@ export default function HubbleUIDiv() {
       <Page>
         <PageSection variant="light">
           <Title headingLevel="h1">{t('Hubble UI')}</Title>
+          { endpoint ? <NetworkPolicyControls {...endpoint}/> : <></> }
         </PageSection>
-        { fetched.data ? <HubbleUI {...fetched.data} />  :
+        { fetched.data ? <HubbleUI
+                           onEndpointCardClicked={ (e) => setEndpoint(e) }
+                           {...fetched.data} />  :
           fetched.error ? <Error error={fetched.error}/> :
             <Loading/> }
       </Page>
@@ -54,7 +61,10 @@ export default function HubbleUIDiv() {
   );
 }
 
-function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfig) {
+type HubbleUIProps = TwelveFactorHubbleUIConfig & {
+  onEndpointCardClicked : (event: EndpointCardClicked) => void
+};
+
 let _manuallyEnteredToken : string | undefined;
 
 async function obtainToken (tokenReflectorURI : string) : Promise<string> {
@@ -69,6 +79,7 @@ async function obtainToken (tokenReflectorURI : string) : Promise<string> {
   return res.headers.get("X-Token");
 }
 
+function HubbleUI({ iframeDomain, tokenReflectorURI, onEndpointCardClicked }: HubbleUIProps) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
@@ -84,6 +95,10 @@ async function obtainToken (tokenReflectorURI : string) : Promise<string> {
           }
         });
     });
+
+    useEffect(
+      () => onIframeMessage(iframeRef, "endpoint-card-clicked-⚙️", onEndpointCardClicked),
+      [onEndpointCardClicked]);
 
     return <iframe ref={iframeRef} src={iframeDomain}
              sandbox="allow-same-origin allow-scripts allow-modals"
