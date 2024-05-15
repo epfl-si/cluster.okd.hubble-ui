@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import { Configuration as WebpackConfiguration } from "webpack";
+import { Configuration as WebpackConfiguration, DefinePlugin } from "webpack";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import * as path from "path";
 import { ConsoleRemotePlugin } from "@openshift-console/dynamic-plugin-sdk-webpack";
@@ -76,6 +76,9 @@ const config: Configuration = {
     new CopyWebpackPlugin({
       patterns: [{ from: path.resolve(__dirname, 'locales'), to: 'locales' }],
     }),
+    new DefinePlugin({
+      _DEVELOPMENT_MANUAL_INPUT_TOKEN: process.env.NODE_ENV !== "production"
+    })
   ],
   devtool: "source-map",
   optimization: {
@@ -94,6 +97,10 @@ if (process.env.NODE_ENV === "production") {
     config.optimization.chunkIds = 'deterministic';
     config.optimization.minimize = true;
   }
+} else {
+  config.plugins!.push(new CopyWebpackPlugin({
+      patterns: [{ from: path.resolve(__dirname, 'devsupport/frontend-config.json'), to: 'runtime/' }],
+    }));
 }
 
 export default config;

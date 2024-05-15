@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-core';
 import useAsyncEffect from 'use-async-effect';
 import { onIframeMessage } from  '../iframe-api';
+import { DeveloperTokenControls } from './DeveloperTokenControls';
 import './hubble-ui-div.css';
 
 
@@ -54,6 +55,27 @@ export default function HubbleUIDiv() {
   );
 }
 
+const devBearerToken = (function() {
+  const STORAGE_KEY = "devBearerToken";
+  return {
+    get() : string { return window.localStorage.getItem(STORAGE_KEY); },
+    set(value : string) { return window.localStorage.setItem(STORAGE_KEY, value); }
+  }
+})();
+
+async function obtainToken (tokenReflectorURI : string) : Promise<string> {
+  if (_DEVELOPMENT_MANUAL_INPUT_TOKEN) {
+    return devBearerToken.get();
+  }
+
+  const res = await fetch(tokenReflectorURI, {credentials: "include"});
+  return res.headers.get("X-Token");
+}
+
+type HubbleUIProps = TwelveFactorHubbleUIConfig & {
+  onHubbleUIAttention : (event: HubbleUIViewAttentionRequest) => void
+};
+
 function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfig) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -61,11 +83,9 @@ function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfi
       return onIframeMessage(iframeRef, "bearer-token-request",
         async () => {
           try {
-            const res = await fetch(tokenReflectorURI, {credentials: "include"});
-            const token = res.headers.get("X-Token");
             iframeRef.current.contentWindow.postMessage(
               { kind: "token",
-                token },
+                token: await obtainToken(tokenReflectorURI) },
               iframeDomain);
           } catch (e) {
             console.error("in onIframeMessage handler: ", e);
@@ -73,9 +93,18 @@ function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfi
         });
     });
 
-    return <iframe ref={iframeRef} src={iframeDomain}
-             sandbox="allow-same-origin allow-scripts allow-modals"
-             style={{height: "100%", width: "100%" }} />
+    useEffect(
+      () => onIframeMessage(iframeRef, "hubble-ui-view-attention-request",
+        onHubbleUIAttention),
+      [onHubbleUIAttention]);
+
+    return <>
+             { _DEVELOPMENT_MANUAL_INPUT_TOKEN ?
+               <DeveloperTokenControls bearerToken={devBearerToken}/> : <></> }
+             <iframe ref={iframeRef} src={iframeDomain}
+               sandbox="allow-same-origin allow-scripts allow-modals"
+               style={{height: "100%", width: "100%" }} />
+           </>;
 }
 
 function Error ({ error }: { error: Error }) {

@@ -38,6 +38,24 @@ This will run the OpenShift console in a container connected to the cluster
 you've logged into. The plugin HTTP server runs on port 9001 with CORS enabled.
 Navigate to <http://localhost:9000/hubble-ui> to see the running plugin.
 
+Finally, in a third terminal window,
+1. Clone the [`feature/mashable` branch of the `epfl-si/hubble-ui-epfl` GitHub project](https://github.com/epfl-si/hubble-ui-epfl/tree/feature/mashable) and `cd` into it:
+   ```shell
+   git clone -b feature/mashable https://github.com/epfl-si/hubble-ui-epfl
+   cd hubble-ui-epfl
+   ```
+2. Run it according to its own [instructions](https://github.com/epfl-si/hubble-ui-epfl/tree/feature/mashable?tab=readme-ov-file#local-frontend-in-cluster-backend) i.e.
+   ```shell
+   npm install
+   env DOTENV_CONFIG_PATH=.env.fsd npm run dev
+   ```
+
+When prompted for your token, obtain it with
+```shell
+oc whoami -t
+```
+in a fourth terminal window
+
 #### Running start-console with Apple silicon and podman
 
 If you are using podman on a Mac with Apple silicon, `yarn run start-console`

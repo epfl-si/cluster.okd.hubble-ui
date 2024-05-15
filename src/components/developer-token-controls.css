@@ -1,0 +1,7 @@
+.pf-m-expanded.okd-epfl-hubble-ui__developer-tools {
+  width: 400px;
+
+  .pf-c-dropdown__toggle {
+      margin-left: auto;
+  }
+}
