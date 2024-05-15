@@ -81,7 +81,7 @@ function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfi
 function Error ({ error }: { error: Error }) {
   return <>
            <h4>{t("Error!")}</h4>
-           <pre>{JSON.stringify(error)}</pre>
+           <pre>{String(error)}</pre>
          </>;
 }
 
