@@ -13,4 +13,21 @@
     background: white;
     top: 20%;
   }
+
+
+  .hubble-ui-network-policy-controls-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .hubble-ui-network-policy-controls-close-button:hover {
+    background-color: #cc0000;
+  }
 }

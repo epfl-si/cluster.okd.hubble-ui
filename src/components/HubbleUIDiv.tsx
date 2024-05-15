@@ -49,7 +49,9 @@ export default function HubbleUIDiv() {
       <Page>
         <PageSection variant="light">
           <Title headingLevel="h1">{t('Hubble UI')}</Title>
-          { endpoint ? <NetworkPolicyControls {...endpoint}/> : <></> }
+          { endpoint ? <NetworkPolicyControls
+                         onCloseButtonClicked={ () => setEndpoint(null) }
+                         {...endpoint}/> : <></> }
         </PageSection>
         { fetched.data ? <HubbleUI
                            onEndpointCardClicked={ (e) => setEndpoint(e) }
