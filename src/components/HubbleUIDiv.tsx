@@ -55,17 +55,29 @@ export default function HubbleUIDiv() {
 }
 
 function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfig) {
+let _manuallyEnteredToken : string | undefined;
+
+async function obtainToken (tokenReflectorURI : string) : Promise<string> {
+  if (_DEVELOPMENT_MANUAL_INPUT_TOKEN) {
+    if (! _manuallyEnteredToken) {
+      _manuallyEnteredToken = prompt("DEVELOPMENT ONLY — Please enter token");
+    }
+    return _manuallyEnteredToken;
+  }
+
+  const res = await fetch(tokenReflectorURI, {credentials: "include"});
+  return res.headers.get("X-Token");
+}
+
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
       return onIframeMessage(iframeRef, "bearer-token-request",
         async () => {
           try {
-            const res = await fetch(tokenReflectorURI, {credentials: "include"});
-            const token = res.headers.get("X-Token");
             iframeRef.current.contentWindow.postMessage(
               { kind: "token",
-                token },
+                token: await obtainToken(tokenReflectorURI) },
               iframeDomain);
           } catch (e) {
             console.error("in onIframeMessage handler: ", e);
