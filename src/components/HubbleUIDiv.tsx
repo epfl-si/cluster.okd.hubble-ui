@@ -9,6 +9,7 @@ import {
 import useAsyncEffect from 'use-async-effect';
 import { onIframeMessage } from  '../iframe-api';
 import { DeveloperTokenControls } from './DeveloperTokenControls';
+import { t } from "../lib/translations";
 import './hubble-ui-div.css';
 
 
@@ -21,8 +22,6 @@ type TwelveFactorHubbleUIConfig = {
   iframeDomain : string;
   tokenReflectorURI : string;
 }
-
-function t(translatableString : string) { return translatableString; }
 
 export default function HubbleUIDiv() {
   const [ fetched, setFetched ] = useState< FetchOutcome<TwelveFactorHubbleUIConfig> >({});
