@@ -11,10 +11,23 @@ type BearerToken = {
   token: string
 }
 
-export type IframeReceivedMessage = BearerTokenRequest;
+export type IframeReceivedMessage = BearerTokenRequest | HubbleUIViewAttentionRequest;
 
 type BearerTokenRequest = {
   kind: "bearer-token-request"
+}
+
+export type HubbleUIViewAttentionRequest = {
+  kind: "hubble-ui-view-attention-request",
+  namespace: string | undefined,
+  filters: HubbleUIViewFilter[]
+}
+
+type HubbleUIViewFilter = {
+  direction: string,
+  kind: string,
+  meta?: string,
+  negative: boolean,
 }
 
 /**

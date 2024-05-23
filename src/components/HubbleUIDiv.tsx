@@ -7,8 +7,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import useAsyncEffect from 'use-async-effect';
-import { onIframeMessage } from  '../iframe-api';
+import { onIframeMessage, HubbleUIViewAttentionRequest } from  '../iframe-api';
 import { DeveloperTokenControls } from './DeveloperTokenControls';
+import { NetworkPolicyControls } from './NetworkPolicyControls';
 import { t } from "../lib/translations";
 import './hubble-ui-div.css';
 
@@ -33,9 +34,12 @@ export default function HubbleUIDiv() {
       const data = await res.json();
       if (isStillMounted) setFetched({ data });
     } catch (error) {
+      console.error(error);
       if (isStillMounted) setFetched({ error });
     }
   }, []);
+
+  const [ endpoint, setEndpoint ] = useState<HubbleUIViewAttentionRequest>();
 
   return (
     <>
@@ -45,8 +49,13 @@ export default function HubbleUIDiv() {
       <Page>
         <PageSection variant="light">
           <Title headingLevel="h1">{t('Hubble UI')}</Title>
+          { endpoint ? <NetworkPolicyControls
+                         onClose={ () => setEndpoint(null) }
+                         {...endpoint}/> : <></> }
         </PageSection>
-        { fetched.data ? <HubbleUI {...fetched.data} />  :
+        { fetched.data ? <HubbleUI
+                           onHubbleUIAttention={ (e) => setEndpoint(e) }
+                           {...fetched.data} />  :
           fetched.error ? <Error error={fetched.error}/> :
             <Loading/> }
       </Page>
@@ -75,7 +84,7 @@ type HubbleUIProps = TwelveFactorHubbleUIConfig & {
   onHubbleUIAttention : (event: HubbleUIViewAttentionRequest) => void
 };
 
-function HubbleUI({ iframeDomain, tokenReflectorURI }: TwelveFactorHubbleUIConfig) {
+function HubbleUI({ iframeDomain, tokenReflectorURI, onHubbleUIAttention }: HubbleUIProps) {
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
