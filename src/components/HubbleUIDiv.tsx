@@ -15,7 +15,7 @@ export default function HubbleUIDiv() {
   return (
     <>
       <Helmet>
-        <title data-test="example-page-title">{t('Hello, Plugin!')}</title>
+        <title>{t('Hubble UI')}</title>
       </Helmet>
       <Page>
         <PageSection variant="light">
